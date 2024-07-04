@@ -3,6 +3,7 @@ package fr.sncf.d2d.colitrack.domain;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppUserService {
@@ -23,6 +24,10 @@ public class AppUserService {
     }
 
     public AppUser create(AppUser input) {
+        Optional<?> maybeUser = this.repository.findById(input.getUsername());
+        if (maybeUser.isPresent()) {
+            throw new IllegalStateException("User with same username already exists");
+        }
         return this.repository.save(input);
     }
 

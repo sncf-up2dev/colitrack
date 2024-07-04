@@ -18,26 +18,30 @@ public class UserController {
     private final List<AppUser> data = new ArrayList<>();
 
     @GetMapping
-    public List<AppUser> retrieveAll() {
-        return this.data;
+    public List<AppUserDto> retrieveAll() {
+        return this.data.stream()
+                .map(AppUserDto::from)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public AppUser retrieve(
+    public AppUserDto retrieve(
             @PathVariable String id
     ) {
         return this.data.stream()
                 .filter(appUser -> id.equals(appUser.getUsername()))
                 .findAny()
+                .map(AppUserDto::from)
                 .orElseThrow(() -> new IllegalStateException("User not found"));
     }
 
     @PostMapping
-    public AppUser create(
-            @RequestBody AppUser input
+    public AppUserDto create(
+            @RequestBody AppUserCreationDto input
     ) {
-        this.data.add(input);
-        return input;
+        AppUser appUser = input.toAppUser();
+        this.data.add(appUser);
+        return AppUserDto.from(appUser);
     }
 
     @DeleteMapping("/{id}")

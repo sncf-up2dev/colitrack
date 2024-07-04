@@ -20,13 +20,13 @@ public class AppUserService {
 
     public AppUser retrieve(String username) {
         return this.repository.findById(username)
-                .orElseThrow(() -> new IllegalStateException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public AppUser create(AppUser input) {
         Optional<?> maybeUser = this.repository.findById(input.getUsername());
         if (maybeUser.isPresent()) {
-            throw new IllegalStateException("User with same username already exists");
+            throw new DuplicateException("User with same username already exists");
         }
         return this.repository.save(input);
     }

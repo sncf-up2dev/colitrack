@@ -1,4 +1,4 @@
-package fr.sncf.d2d.colitrack.controllers;
+package fr.sncf.d2d.colitrack.domain;
 
 public class AppUser {
     private String username;

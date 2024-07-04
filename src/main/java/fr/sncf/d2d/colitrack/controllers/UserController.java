@@ -1,5 +1,7 @@
 package fr.sncf.d2d.colitrack.controllers;
 
+import fr.sncf.d2d.colitrack.domain.AppUser;
+import fr.sncf.d2d.colitrack.domain.AppUserService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +17,15 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private final List<AppUser> data = new ArrayList<>();
+    private final AppUserService service;
+
+    public UserController(AppUserService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public List<AppUserDto> retrieveAll() {
-        return this.data.stream()
+        return this.service.retrieveAll().stream()
                 .map(AppUserDto::from)
                 .toList();
     }
@@ -28,11 +34,8 @@ public class UserController {
     public AppUserDto retrieve(
             @PathVariable String id
     ) {
-        return this.data.stream()
-                .filter(appUser -> id.equals(appUser.getUsername()))
-                .findAny()
-                .map(AppUserDto::from)
-                .orElseThrow(() -> new IllegalStateException("User not found"));
+        AppUser appUser = this.service.retrieve(id);
+        return AppUserDto.from(appUser);
     }
 
     @PostMapping
@@ -40,7 +43,7 @@ public class UserController {
             @RequestBody AppUserCreationDto input
     ) {
         AppUser appUser = input.toAppUser();
-        this.data.add(appUser);
+        appUser = this.service.create(appUser);
         return AppUserDto.from(appUser);
     }
 
@@ -48,6 +51,6 @@ public class UserController {
     public void delete(
             @PathVariable String id
     ) {
-        this.data.removeIf(appUser -> id.equals(appUser.getUsername()));
+        this.service.delete(id);
     }
 }

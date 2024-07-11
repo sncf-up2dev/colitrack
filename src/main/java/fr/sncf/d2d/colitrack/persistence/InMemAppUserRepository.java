@@ -2,13 +2,11 @@ package fr.sncf.d2d.colitrack.persistence;
 
 import fr.sncf.d2d.colitrack.domain.AppUser;
 import fr.sncf.d2d.colitrack.domain.AppUserRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class InMemAppUserRepository implements AppUserRepository {
 
     private final List<AppUser> data = new ArrayList<>();

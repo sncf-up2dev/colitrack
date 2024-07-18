@@ -32,6 +32,9 @@ public class AppUserService {
     }
 
     public void delete(String username) {
+        if (!this.repository.existsById(username)) {
+            throw new NotFoundException("Username not found");
+        }
         this.repository.deleteById(username);
     }
 }

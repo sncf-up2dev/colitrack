@@ -15,7 +15,7 @@ public class AppUserService {
     }
 
     public List<AppUser> retrieveAll() {
-        return this.repository.find();
+        return this.repository.findAll();
     }
 
     public AppUser retrieve(String username) {
@@ -32,6 +32,6 @@ public class AppUserService {
     }
 
     public void delete(String username) {
-        this.repository.delete(username);
+        this.repository.deleteById(username);
     }
 }

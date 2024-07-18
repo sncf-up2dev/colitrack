@@ -1,6 +1,5 @@
 package fr.sncf.d2d.colitrack.domain;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -30,7 +29,7 @@ class AppUserServiceTest {
                 new AppUser("user2", "pswrd2")
         );
         // GIVEN
-        Mockito.when(repository.find()).thenReturn(data);
+        Mockito.when(repository.findAll()).thenReturn(data);
         // WHEN
         List<AppUser> list = sut.retrieveAll();
         // THEN
@@ -42,7 +41,7 @@ class AppUserServiceTest {
     void retrieve_all_empty() {
         List<AppUser> data = List.of();
         // GIVEN
-        Mockito.when(repository.find()).thenReturn(data);
+        Mockito.when(repository.findAll()).thenReturn(data);
         // WHEN
         List<AppUser> list = sut.retrieveAll();
         // THEN
@@ -88,6 +87,6 @@ class AppUserServiceTest {
         // WHEN
         sut.delete("jean");
         // THEN
-        Mockito.verify(repository).delete("jean");
+        Mockito.verify(repository).deleteById("jean");
     }
 }

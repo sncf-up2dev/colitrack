@@ -2,6 +2,7 @@ package fr.sncf.d2d.colitrack.controllers;
 
 import fr.sncf.d2d.colitrack.domain.AppUser;
 import fr.sncf.d2d.colitrack.domain.AppUserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,20 +40,8 @@ public class UserController {
 
     @PostMapping
     public AppUserDto create(
-            @RequestBody AppUserCreationDto input
+            @Valid @RequestBody AppUserCreationDto input
     ) {
-        if (input.username() == null) {
-            throw new BadRequestException("Required username");
-        }
-        if (input.password() == null) {
-            throw new BadRequestException("Required password");
-        }
-        if (input.username().isBlank()) {
-            throw new BadRequestException("Username must not be blanc");
-        }
-        if (input.password().isBlank()) {
-            throw new BadRequestException("Password must not be blanc");
-        }
         AppUser appUser = input.toAppUser();
         appUser = this.service.create(appUser);
         return AppUserDto.from(appUser);

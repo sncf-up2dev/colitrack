@@ -84,6 +84,8 @@ class AppUserServiceTest {
 
     @Test
     void delete() {
+        // GIVEN
+        Mockito.when(repository.existsById("jean")).thenReturn(true);
         // WHEN
         sut.delete("jean");
         // THEN

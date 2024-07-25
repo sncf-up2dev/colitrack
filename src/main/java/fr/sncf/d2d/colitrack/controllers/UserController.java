@@ -41,6 +41,18 @@ public class UserController {
     public AppUserDto create(
             @RequestBody AppUserCreationDto input
     ) {
+        if (input.username() == null) {
+            throw new BadRequestException("Required username");
+        }
+        if (input.password() == null) {
+            throw new BadRequestException("Required password");
+        }
+        if (input.username().isBlank()) {
+            throw new BadRequestException("Username must not be blanc");
+        }
+        if (input.password().isBlank()) {
+            throw new BadRequestException("Password must not be blanc");
+        }
         AppUser appUser = input.toAppUser();
         appUser = this.service.create(appUser);
         return AppUserDto.from(appUser);

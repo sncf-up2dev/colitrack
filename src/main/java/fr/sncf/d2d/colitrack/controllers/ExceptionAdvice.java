@@ -21,4 +21,10 @@ public class ExceptionAdvice {
     public ErrorDto handle(DuplicateException exception) {
         return ErrorDto.from(exception);
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto handle(BadRequestException exception) {
+        return ErrorDto.from(exception);
+    }
 }

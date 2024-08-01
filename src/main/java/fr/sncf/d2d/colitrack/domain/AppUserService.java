@@ -1,5 +1,6 @@
 package fr.sncf.d2d.colitrack.domain;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +10,13 @@ import java.util.Optional;
 public class AppUserService {
 
     private final AppUserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AppUserService(AppUserRepository repository) {
+    public AppUserService(
+            AppUserRepository repository,
+            PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<AppUser> retrieveAll() {
@@ -28,6 +33,7 @@ public class AppUserService {
         if (maybeUser.isPresent()) {
             throw new DuplicateException("User with same username already exists");
         }
+        input.setPassword(this.passwordEncoder.encode(input.getPassword()));
         return this.repository.save(input);
     }
 

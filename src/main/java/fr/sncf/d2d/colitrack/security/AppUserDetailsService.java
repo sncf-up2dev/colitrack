@@ -1,0 +1,50 @@
+package fr.sncf.d2d.colitrack.security;
+
+import fr.sncf.d2d.colitrack.domain.AppUser;
+import fr.sncf.d2d.colitrack.domain.AppUserRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class AppUserDetailsService implements UserDetailsService {
+
+    private final AppUserRepository appUserRepository;
+    private final UserDetails superuser;
+
+    public AppUserDetailsService(
+            AppUserRepository appUserRepository,
+            PasswordEncoder passwordEncoder,
+            @Value("${colitrack.security.superuser.username:}")
+            String superuserUsername,
+            @Value("${colitrack.security.superuser.password:}")
+            String superuserPassword) {
+        this.appUserRepository = appUserRepository;
+        String encodedPassword = passwordEncoder.encode(superuserPassword);
+        if (!superuserUsername.isBlank() && !superuserPassword.isBlank()) {
+            this.superuser = new User(superuserUsername, encodedPassword, List.of());
+        } else {
+            this.superuser = null;
+        }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (this.superuser != null && username.equals(superuser.getUsername())) {
+            return this.superuser;
+        }
+        return this.appUserRepository.findById(username)
+                .map(this::mapAppUser)
+                .orElseThrow(() -> new UsernameNotFoundException("Username %s not found".formatted(username)));
+    }
+
+    private UserDetails mapAppUser(AppUser appUser) {
+        return new User(appUser.getUsername(), appUser.getPassword(), List.of());
+    }
+}

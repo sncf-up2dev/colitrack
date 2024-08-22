@@ -16,7 +16,7 @@ import java.util.List;
 public class AppUserDetailsService implements UserDetailsService {
 
     private final AppUserRepository appUserRepository;
-    private final UserDetails superuser;
+    private final AppUser superuser;
 
     public AppUserDetailsService(
             AppUserRepository appUserRepository,
@@ -26,9 +26,9 @@ public class AppUserDetailsService implements UserDetailsService {
             @Value("${colitrack.security.superuser.password:}")
             String superuserPassword) {
         this.appUserRepository = appUserRepository;
-        String encodedPassword = passwordEncoder.encode(superuserPassword);
         if (!superuserUsername.isBlank() && !superuserPassword.isBlank()) {
-            this.superuser = new User(superuserUsername, encodedPassword, List.of());
+            String encodedPassword = passwordEncoder.encode(superuserPassword);
+            this.superuser = new AppUser(superuserUsername, encodedPassword);
         } else {
             this.superuser = null;
         }
@@ -37,7 +37,7 @@ public class AppUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (this.superuser != null && username.equals(superuser.getUsername())) {
-            return this.superuser;
+            return this.mapAppUser(this.superuser);
         }
         return this.appUserRepository.findById(username)
                 .map(this::mapAppUser)

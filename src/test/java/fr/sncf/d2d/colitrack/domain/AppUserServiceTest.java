@@ -6,7 +6,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +21,9 @@ class AppUserServiceTest {
 
     @Mock
     AppUserRepository repository;
+
+    @Spy
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @InjectMocks
     AppUserService sut;
@@ -79,7 +85,8 @@ class AppUserServiceTest {
         ArgumentCaptor<AppUser> captor = ArgumentCaptor.forClass(AppUser.class);
         Mockito.verify(repository).save(captor.capture());
         AppUser captured = captor.getValue();
-        assertEquals(appUser, captured);
+        assertEquals("jean", captured.getUsername());
+        assertTrue(this.passwordEncoder.matches("naej", captured.getPassword()));
     }
 
     @Test

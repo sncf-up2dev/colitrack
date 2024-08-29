@@ -2,6 +2,7 @@ package fr.sncf.d2d.colitrack.security;
 
 import fr.sncf.d2d.colitrack.domain.AppUser;
 import fr.sncf.d2d.colitrack.domain.AppUserRepository;
+import fr.sncf.d2d.colitrack.domain.AppUserRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +29,7 @@ public class AppUserDetailsService implements UserDetailsService {
         this.appUserRepository = appUserRepository;
         if (!superuserUsername.isBlank() && !superuserPassword.isBlank()) {
             String encodedPassword = passwordEncoder.encode(superuserPassword);
-            this.superuser = new AppUser(superuserUsername, encodedPassword);
+            this.superuser = new AppUser(superuserUsername, encodedPassword, AppUserRole.ADMIN);
         } else {
             this.superuser = null;
         }

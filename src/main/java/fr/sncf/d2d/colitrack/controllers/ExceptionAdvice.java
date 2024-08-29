@@ -3,11 +3,13 @@ package fr.sncf.d2d.colitrack.controllers;
 import fr.sncf.d2d.colitrack.domain.DuplicateException;
 import fr.sncf.d2d.colitrack.domain.NotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.stream.Collectors;
 
@@ -41,5 +43,12 @@ public class ExceptionAdvice {
                 })
                 .collect(Collectors.joining(", "));
         return new ErrorDto(errors);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorDto> hande(ResponseStatusException exception) {
+        return ResponseEntity
+                .status(exception.getStatusCode())
+                .body(ErrorDto.from(exception));
     }
 }

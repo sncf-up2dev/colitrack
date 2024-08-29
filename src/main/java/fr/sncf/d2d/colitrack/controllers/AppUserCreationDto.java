@@ -4,6 +4,8 @@ import fr.sncf.d2d.colitrack.domain.AppUser;
 import fr.sncf.d2d.colitrack.domain.AppUserRole;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 public record AppUserCreationDto(
         @Username
@@ -11,7 +13,7 @@ public record AppUserCreationDto(
         @Password
         String password,
         @NotNull
-        AppUserRole role
+        String role
 ) {
 
     @AssertTrue(message = "Password should not contain username")
@@ -20,6 +22,14 @@ public record AppUserCreationDto(
     }
 
     public AppUser toAppUser() {
-        return new AppUser(username, password, role);
+        try {
+            return new AppUser(username, password, AppUserRole.valueOf(role));
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Illegal value %s for role".formatted(role),
+                    e
+            );
+        }
     }
 }

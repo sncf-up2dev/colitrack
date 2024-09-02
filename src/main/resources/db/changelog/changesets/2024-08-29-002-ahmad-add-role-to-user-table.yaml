@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-08-29-002-ahmad-add-role-to-user-table
+      author: ahmad
+      changes:
+        - addColumn:
+            tableName: app_user
+            columns:
+              - column:
+                  name: role
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

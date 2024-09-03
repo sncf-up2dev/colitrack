@@ -4,6 +4,7 @@ import fr.sncf.d2d.colitrack.domain.AppUser;
 import fr.sncf.d2d.colitrack.domain.AppUserRepository;
 import fr.sncf.d2d.colitrack.domain.AppUserRole;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -46,6 +47,9 @@ public class AppUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails mapAppUser(AppUser appUser) {
-        return new User(appUser.getUsername(), appUser.getPassword(), List.of());
+        List<SimpleGrantedAuthority> authorities = appUser.getRole().getAuthorities().stream()
+                .map(SimpleGrantedAuthority::new)
+                .toList();
+        return new User(appUser.getUsername(), appUser.getPassword(), authorities);
     }
 }

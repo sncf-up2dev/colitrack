@@ -19,8 +19,8 @@ public class SecurityConfiguration {
                 .httpBasic(Customizer.withDefaults())
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.GET).permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.GET).authenticated()
+                        .anyRequest().hasAuthority("WRITE")
                 )
                 .build();
     }

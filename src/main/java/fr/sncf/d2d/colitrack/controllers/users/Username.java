@@ -1,4 +1,4 @@
-package fr.sncf.d2d.colitrack.controllers;
+package fr.sncf.d2d.colitrack.controllers.users;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

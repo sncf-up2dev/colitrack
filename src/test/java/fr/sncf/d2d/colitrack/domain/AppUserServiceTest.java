@@ -1,5 +1,8 @@
 package fr.sncf.d2d.colitrack.domain;
 
+import fr.sncf.d2d.colitrack.domain.users.AppUser;
+import fr.sncf.d2d.colitrack.domain.users.AppUserRepository;
+import fr.sncf.d2d.colitrack.domain.users.AppUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

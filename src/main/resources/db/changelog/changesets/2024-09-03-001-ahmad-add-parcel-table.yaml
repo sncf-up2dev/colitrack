@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-09-03-001-ahmad-add-parcel-table
+      author: ahmad
+      changes:
+        - createTable:
+            tableName: parcel
+            columns:
+              - column:
+                  name: id
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: destination_address
+                  type: varchar(255)
+              - column:
+                  name: postman_username
+                  type: varchar(255)
+                  constraints:
+                    foreignKeyName: fk_parcel__app_user___postman
+                    referencedTableName: app_user
+                    referencedColumnNames: username

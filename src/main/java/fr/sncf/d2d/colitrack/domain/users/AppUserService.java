@@ -1,5 +1,7 @@
-package fr.sncf.d2d.colitrack.domain;
+package fr.sncf.d2d.colitrack.domain.users;
 
+import fr.sncf.d2d.colitrack.domain.DuplicateException;
+import fr.sncf.d2d.colitrack.domain.NotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

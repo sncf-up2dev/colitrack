@@ -1,7 +1,7 @@
-package fr.sncf.d2d.colitrack.controllers;
+package fr.sncf.d2d.colitrack.controllers.users;
 
-import fr.sncf.d2d.colitrack.domain.AppUser;
-import fr.sncf.d2d.colitrack.domain.AppUserRole;
+import fr.sncf.d2d.colitrack.domain.users.AppUser;
+import fr.sncf.d2d.colitrack.domain.users.AppUserRole;
 
 public record AppUserDto(
         String username,

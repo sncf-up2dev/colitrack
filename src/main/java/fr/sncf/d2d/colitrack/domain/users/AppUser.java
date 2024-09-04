@@ -1,4 +1,4 @@
-package fr.sncf.d2d.colitrack.domain;
+package fr.sncf.d2d.colitrack.domain.users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

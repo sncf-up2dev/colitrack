@@ -1,7 +1,7 @@
-package fr.sncf.d2d.colitrack.controllers;
+package fr.sncf.d2d.colitrack.controllers.users;
 
-import fr.sncf.d2d.colitrack.domain.AppUser;
-import fr.sncf.d2d.colitrack.domain.AppUserService;
+import fr.sncf.d2d.colitrack.domain.users.AppUser;
+import fr.sncf.d2d.colitrack.domain.users.AppUserService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

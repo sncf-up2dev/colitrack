@@ -1,8 +1,8 @@
 package fr.sncf.d2d.colitrack.security;
 
-import fr.sncf.d2d.colitrack.domain.AppUser;
-import fr.sncf.d2d.colitrack.domain.AppUserRepository;
-import fr.sncf.d2d.colitrack.domain.AppUserRole;
+import fr.sncf.d2d.colitrack.domain.users.AppUser;
+import fr.sncf.d2d.colitrack.domain.users.AppUserRepository;
+import fr.sncf.d2d.colitrack.domain.users.AppUserRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

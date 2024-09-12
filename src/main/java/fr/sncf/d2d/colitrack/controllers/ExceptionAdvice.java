@@ -1,5 +1,6 @@
 package fr.sncf.d2d.colitrack.controllers;
 
+import fr.sncf.d2d.colitrack.domain.DomainException;
 import fr.sncf.d2d.colitrack.domain.DuplicateException;
 import fr.sncf.d2d.colitrack.domain.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,12 @@ public class ExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorDto handle(DuplicateException exception) {
+        return ErrorDto.from(exception);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto handle(DomainException exception) {
         return ErrorDto.from(exception);
     }
 

@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('WRITE')")
+    @PreAuthorize("hasAuthority('WRITE') || principal.username == #id")
     public AppUserDto retrieve(
             @PathVariable String id
     ) {

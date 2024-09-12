@@ -2,6 +2,7 @@ package fr.sncf.d2d.colitrack.controllers.parcels;
 
 import fr.sncf.d2d.colitrack.domain.parcels.Parcel;
 import fr.sncf.d2d.colitrack.domain.parcels.ParcelService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ public class ParcelController {
     @PostMapping
     public ParcelDto create(
             @RequestBody
+            @Valid
             ParcelCreationDto creation
     ) {
         Parcel toCreate = creation.toParcel();

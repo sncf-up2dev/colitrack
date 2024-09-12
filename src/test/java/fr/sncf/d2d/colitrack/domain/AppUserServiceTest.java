@@ -1,5 +1,7 @@
 package fr.sncf.d2d.colitrack.domain;
 
+import fr.sncf.d2d.colitrack.domain.parcels.Parcel;
+import fr.sncf.d2d.colitrack.domain.parcels.ParcelRepository;
 import fr.sncf.d2d.colitrack.domain.users.AppUser;
 import fr.sncf.d2d.colitrack.domain.users.AppUserRepository;
 import fr.sncf.d2d.colitrack.domain.users.AppUserService;
@@ -24,6 +26,9 @@ class AppUserServiceTest {
 
     @Mock
     AppUserRepository repository;
+
+    @Mock
+    ParcelRepository parcelRepository;
 
     @Spy
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

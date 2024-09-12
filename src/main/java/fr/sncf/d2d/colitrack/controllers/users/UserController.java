@@ -3,6 +3,7 @@ package fr.sncf.d2d.colitrack.controllers.users;
 import fr.sncf.d2d.colitrack.domain.users.AppUser;
 import fr.sncf.d2d.colitrack.domain.users.AppUserService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('WRITE')")
     public List<AppUserDto> retrieveAll() {
         return this.service.retrieveAll().stream()
                 .map(AppUserDto::from)
@@ -31,6 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('WRITE')")
     public AppUserDto retrieve(
             @PathVariable String id
     ) {
@@ -39,6 +42,7 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('MANAGE')")
     public AppUserDto create(
             @Valid @RequestBody AppUserCreationDto input
     ) {
@@ -48,6 +52,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('MANAGE')")
     public void delete(
             @PathVariable String id
     ) {
